@@ -1,11 +1,15 @@
+from lista_simple import ListaSimple
+
+
+
 class Factura:
 
-    def __init__(self, numero, nit, nombre, total, productos = []) -> None:
+    def __init__(self, numero, nit, nombre, total) -> None:
         self.numero = numero
         self.nit = nit
         self.nombre = nombre
         self.total = total
-        self.productos = productos
+        self.productos = ListaSimple()
 
 
     def __str__(self) -> str:
