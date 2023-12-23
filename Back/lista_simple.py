@@ -14,6 +14,17 @@ class ListaSimple:
             self.ultimo.siguiente = nuevoNodo
             self.ultimo = nuevoNodo
 
+    def insertarEnFactura(self, nombreFactura, node):
+        existeFactura = self.BuscarPorNombre(nombreFactura)
+        aux = self.primero
+        if existeFactura:
+            while aux != None:
+                if nombreFactura == aux.node.nombre:
+                    aux.node.productos.insertarNodo(node)
+                    break
+                else:
+                    aux = aux.siguiente
+
     def ImprimirProducto(self):
         aux = self.primero
         while aux != None:
@@ -25,6 +36,27 @@ class ListaSimple:
             print('\n')
             aux = aux.siguiente
 
+
+    def ImprimirProductoEnFactura(self, nombreFactura):
+        existeFactura = self.BuscarPorNombre(nombreFactura)
+        aux = self.primero
+        if existeFactura:
+            while aux != None:
+                if nombreFactura == aux.node.nombre:
+                    # Imprime los datos de la factura
+                    print(f"\nNúmero factura: {aux.node.numero}")
+                    print(f"Nombre del cliente: {aux.node.nombre}")
+                    print(f"Nit del cliente: {aux.node.nit}")
+                    print(f"Número factura: {aux.node.numero}")
+                    print(f"Total: {aux.node.total}")
+                    print("\nProductos:\n")
+                    # Imprime todos los productos almacenados en la factura
+                    aux.node.productos.ImprimirProducto()
+                    print("=====================")
+                    break
+                else:
+                    aux = aux.siguiente
+
     def ImprimirCliente(self):
         aux = self.primero
         while aux != None:
@@ -33,6 +65,16 @@ class ListaSimple:
             print('Nombre: '+ aux.node.nombre)
             print('Dirección: '+ aux.node.direccion)
             print('Correo: '+ aux.node.correo)
+            print('\n')
+            aux = aux.siguiente
+
+    def ImprimirFactura(self):
+        aux = self.primero
+        while aux != None:
+            print('Número de la factura: '+ aux.node.numero)
+            print('Nit del cliente: '+ aux.node.nit)
+            print('Nombre del cliente: '+ aux.node.nombre)
+            print('Total: '+ aux.node.total)
             print('\n')
             aux = aux.siguiente
 
@@ -137,6 +179,17 @@ class ListaSimple:
             aux = aux.siguiente
         print("No existe el nombre")
         return None
+    
+    def EliminarProductoEnFactura(self, nombreFactura,nombreProducto):
+        existeFactura = self.BuscarPorNombre(nombreFactura)
+        aux = self.primero
+        if existeFactura:
+            while aux != None:
+                if nombreFactura == aux.node.nombre:
+                    nodoProducto = aux.node.productos.EliminarPorNombre(nombreProducto)
+                    return nodoProducto # Regresa el nodo de producto
+                else:
+                    aux = aux.siguiente
     
     # Se utiliza unicamente para los clientes
     def EditarPorNombreCliente(self, nombre,dpi,nit,nuevoNombre,direccion,correo):
