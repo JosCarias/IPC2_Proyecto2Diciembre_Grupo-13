@@ -12,15 +12,13 @@ def subMenuFacturas():
           +"\n\t3. Agregar factura"
           +"\n\t4. Editar factura"
           +"\n\t5. Eliminar facturas"
-          +"\n\t6. Ver facturas"
+          +"\n\t6. Ver facturas creadas"
           +"\n\t7. Agregar producto en factura"
           +"\n\t8. Eliminar producto en factura"
-          +"\n\t9. Ver productos en facturas"
+          +"\n\t9. Ver descripción de factura y productos"
           +"\n\t10. Salir")
 
 def VerNombreClientesExistentes():
-    nodo = Cliente('dpi1','nit1','cliente1','','correo1')
-    lista_clientes.insertarNodo(nodo)
     tamanio=int(lista_clientes.cantidadElementos())
     print('Clientes existentes:\n')
     for i in range(tamanio):
@@ -28,8 +26,6 @@ def VerNombreClientesExistentes():
         print(cliente.nombre)
 
 def VerNombreProductosExistentes():
-    nodo = Producto('id1','producto1','empacado','15','20')
-    lista_productos.insertarNodo(nodo)
     tamanio = int(lista_productos.cantidadElementos())
     print('Nombre de los productos existentes:\n')
     for i in range(tamanio):
@@ -66,8 +62,69 @@ def EditarFactura():
         print('Editado con éxito')
 
 
+def EliminarFactura():
+    nombre = input('Para eliminar una factura, ingrese el nombre del cliente a eliminar:\n')
+    buesqueda = lista_facturas.BuscarPorNombre(nombre)
+    if buesqueda:
+        eliminado = lista_facturas.EliminarPorNombre(nombre)
+        print('La información de la factura eliminada:\n')
+        print('Número Factura: '+eliminado.numero)
+        print('NIT: '+eliminado.nit)
+        print('Nombre: '+eliminado.nombre)
+        print('Total: '+eliminado.total)
 
 
+def VerFacturas():
+    lista_facturas.ImprimirFactura()
+
+def InsertarProductoEnFactura():
+    nombre = input('Ingrese el nombre del cliente, para agregar productos a su factura:\n')
+    buesqueda = lista_facturas.BuscarPorNombre(nombre)
+    if buesqueda:
+        nombreProducto = input('Ingrese el nombre del producto a agregar:\n')
+        busquedaProducto = lista_productos.BuscarPorNombre(nombreProducto)
+        if busquedaProducto:
+            lista_facturas.insertarEnFactura(nombre,busquedaProducto)
+        else:
+            print(f'No existe producto con nombre: {nombreProducto}')
+    else:
+        print(f'No existe una factura del cliente:{nombre}')
+
+def EliminarUnProductoFactura():
+    nombreFactura = input('Ingrese el nombre del cliente, para eliminar un producto en su factura:\n')
+    buesquedaFactura = lista_facturas.BuscarPorNombre(nombreFactura)
+    if buesquedaFactura:
+        nombreProducto = input('Ingrese el nombre del producto que desea eliminar de la factura:\n')
+        busquedaProducto = buesquedaFactura.productos.BuscarPorNombre(nombreProducto)
+        if busquedaProducto:
+            eliminado = lista_facturas.EliminarProductoEnFactura(nombreFactura,nombreProducto)
+            print('La información del producto eliminado:\n')
+            print('Id: '+eliminado.id)
+            print('Nombre: '+eliminado.nombre)
+            print('Descripción: '+eliminado.descripcion)
+            print('Precio: '+eliminado.precio)
+            print('Stock: '+eliminado.stock)
+            print('\n')
+        else:
+            print(f'No existe el producto: {nombreProducto} en la factura: {nombreFactura}')
+    else:
+        print(f'No existe una factura del cliente:{nombreFactura}')
+
+def EncabezadoFactura():
+    print("\n\t==========Punto de Venta=========="
+          +"\n\tDirección: Los Almendros 346, Ciudad de Guatemala"
+          +"\n\tNit de la empresa: 123456"
+          +"\n\tTelefono: 1002-7812"
+          +"\n\t=================================")
+
+def VerFacturaConProductos():
+    nombreFactura = input('Ingrese el nombre del cliente, para ver los productos que tiene agregados a su factura:\n')
+    busqueda = lista_facturas.BuscarPorNombre(nombreFactura)
+    if busqueda:
+        EncabezadoFactura()
+        lista_facturas.ImprimirProductoEnFactura(nombreFactura)
+    else:
+        print(f'No existe una factura del cliente:{nombreFactura}')
 
 def menuFacturas():
     subMenuFacturas()
@@ -82,15 +139,15 @@ def menuFacturas():
         elif opcion == 4:
             EditarFactura()
         elif opcion == 5:
-            pass
+            EliminarFactura()
         elif opcion == 6:
-            pass
+            VerFacturas()
         elif opcion == 7:
-            pass
+            InsertarProductoEnFactura()
         elif opcion == 8:
-            pass
+            EliminarUnProductoFactura()
         elif opcion == 9:
-            pass
+            VerFacturaConProductos()
         elif opcion == 10:
             print("A salido del sub menú de facturas")
             break  
