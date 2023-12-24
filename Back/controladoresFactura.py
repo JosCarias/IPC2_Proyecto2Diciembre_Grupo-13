@@ -84,6 +84,7 @@ def InsertarProductoEnFactura():
         nombreProducto = input('Ingrese el nombre del producto a agregar:\n')
         busquedaProducto = lista_productos.BuscarPorNombre(nombreProducto)
         if busquedaProducto:
+            busquedaProducto.cantidadVentas += 1
             lista_facturas.insertarEnFactura(nombre,busquedaProducto)
         else:
             print(f'No existe producto con nombre: {nombreProducto}')
