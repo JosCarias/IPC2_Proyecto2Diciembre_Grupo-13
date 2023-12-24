@@ -1,3 +1,4 @@
+from controladoresReporte import menuReporte
 from controladoresClientes import menuCliente
 from controladoresProducto import menuProductos
 from controladoresFactura import menuFacturas
@@ -8,12 +9,13 @@ def MenuApp():
           +"\n\t1. Clientes"
           +"\n\t2. Productos"      
           +"\n\t3. Facturas"
-          +"\n\t4. Salir")
+          +"\n\t4. Reportes"
+          +"\n\t5. Salir")
 
 def app():
     MenuApp()
     opcion = int(input ("\nIngrese el número de la acción que desea realizar:\n"))
-    while 1<= opcion and opcion <=4:        
+    while 1<= opcion and opcion <=5:        
         if opcion == 1:
             menuCliente()
         elif opcion == 2:
@@ -21,6 +23,8 @@ def app():
         elif opcion == 3:
             menuFacturas()
         elif opcion == 4:
+            menuReporte()
+        elif opcion == 5:
             print("A salido del punto de venta")
             break  
         MenuApp()    
