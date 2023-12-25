@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -5,11 +6,10 @@
     <title>Punto de ventas</title>
     <!-- Agregar referencia al archivo CSS de Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Enlace al archivo CSS -->
 </head>
 <body style="background-color: #78281F;">
-    <div class="container mt-4" style="background-color: #FDEDEC;border-radius: 10px;  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
-        <fieldset  style="border: 2px;border-radius: 5px;padding: 10px;">
+    <div class="container mt-4" style="background-color: #FDEDEC; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+        <fieldset style="border: 2px; border-radius: 5px; padding: 10px;">
             <button type="button" class="btn btn-primary mr-2" onclick="index()">Regresar</button>
             <script>
                 function index() {
@@ -26,26 +26,27 @@
             </script>
         </fieldset>
     </div>
-    <div class="container mt-4" style="background-color: #FDEDEC;border-radius: 10px;  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+    <div class="container mt-4" style="background-color: #FDEDEC; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
         <h1>Punto de venta</h1>
-        <fieldset  style="border: 2px solid #000;border-radius: 5px;padding: 10px;">
+        <fieldset style="border: 2px solid #000; border-radius: 5px; padding: 10px;">
             <legend>Agregar Factura:</legend>
             <form action="{% url 'agregar_Factura' %}" method="post">
                 {% csrf_token %}
-                <label for="Numero">Numero:</label>
+                <label for="Numero">Numero corelativo:</label>
                 <input type="text" class="form-control" id="Numero" name="numeroFactura" required>
+                <label for="Nombre">Nombre cliente:</label>
+                <input type="text" class="form-control" id="Nombre" name="nombreCliente" required>
                 <label for="NIT">NIT:</label>
                 <input type="text" class="form-control" id="NIT" name="nit" required>
                 <label for="Total">Total:</label>
                 <input type="text" class="form-control" id="Total" name="total" required>
-                <label for="Productos">Productos:</label>
+                <label for="Productos">Productos (separados por comas):</label>
                 <input type="text" class="form-control" id="Productos" name="productos" required>
-
+                        
                 <!-- Botón para enviar el formulario -->
                 <button type="submit" class="btn btn-success mr-2">Agregar</button>
             </form>
         </fieldset>
-        <button type="button" class="btn btn-success mr-2">Agregar</button>
     </div>
     
     <!-- Agregar referencia al archivo JavaScript de Bootstrap (opcional) -->

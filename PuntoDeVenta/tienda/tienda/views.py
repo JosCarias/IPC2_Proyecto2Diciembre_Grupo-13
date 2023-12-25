@@ -94,37 +94,41 @@ def listar_productos(request):
 
 def agregar_factura(request):
     if request.method == 'POST':
-        numeroFactura = request.POST.get('numeroFactura')
+        numero = request.POST.get('numeroFactura')
         nit = request.POST.get('nit')
-        nombre = request.POST.get('nombre')
+        nombre = request.POST.get('nombreCliente')  # Ajustar el nombre del campo según el formulario
         total = request.POST.get('total')
+        productos = request.POST.get('productos')
 
-        nuevaFactura = Factura(numeroFactura, nit, nombre, total)  # Crear una instancia de Factura
-        lista_facturas.insertarNodo(nuevaFactura)  # Insertar la factura en la lista de facturas
+        # Aquí puedes realizar el manejo necesario con los datos de productos, 
+        # como dividirlos, procesarlos, etc., dependiendo de cómo estén estructurados en tu aplicación.
 
-        return render(request, 'agregarFactura.html')  # Renderizar una página de éxito o redirigir a otra vista
+        nuevaFactura = Factura(numero, nit, nombre, total)
+        lista_facturas.insertarNodo(nuevaFactura)
 
-    return render(request, 'agregarFactura.html')  
+        return render(request, 'agregarFactura.html')  # Página de éxito o redirección
+
+    return render(request, 'agregarFactura.html') 
 
 def listar_facturas(request):
-    productos = []
+    facturas = []
 
-    # Obtén la longitud de la lista de productos
-    longitud = lista_productos.cantidadElementos()
+    # Verificar si existen facturas en la lista antes de iterar
+    if lista_facturas.cantidadElementos() > 0:
+        longitud = lista_facturas.cantidadElementos()
 
-    # Iterar a través de la lista enlazada para obtener los productos
-    for i in range(longitud):
-        producto = lista_productos.obtenerNodoPorIndice(i)
-        print(producto.nombre)
+        # Iterar a través de la lista enlazada para obtener las facturas
+        for i in range(longitud):
+            factura = lista_facturas.obtenerNodoPorIndice(i)
 
-        # Asegúrate de acceder correctamente a los atributos del producto
-        productos.append({
-            'id': producto.id,
-            'nombre': producto.nombre,
-            'descripcion': producto.descripcion,
-            'precio': producto.precio,
-            'stock': producto.stock,
-        })
-    return render(request, 'verFacturas.html', {'productos': productos})
+            # Acceder a los atributos correctos de la factura y agregarlos a la lista
+            facturas.append({
+                'numeroFactura': factura.numero,  # Acceder al atributo 'numero' en lugar de 'numeroFactura'
+                'nit': factura.nit,
+                'nombre': factura.nombre,
+                'total': factura.total,
+            })
+
+    return render(request, 'verFacturas.html', {'facturas': facturas})
 
 # python manage.py runserver
