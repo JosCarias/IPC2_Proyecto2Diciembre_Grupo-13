@@ -23,7 +23,8 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('Cliente/', views.agregarCliente, name='agregar_cliente'),
     path('Cliente/clientes/', views.listar_clientes, name='ver_clientes'),
-    path('Producto/', views.agregarProducto, name='agregarProducto'),
+    path('Producto/', views.agregar_producto, name='agregar_Producto'),
+    path('Producto/productos/', views.listar_productos, name='ver_Producto'),
     path('Venta/', views.agregarFactura, name='agregarFactura'),
 ]
 

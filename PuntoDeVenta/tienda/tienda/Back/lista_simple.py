@@ -5,7 +5,6 @@ class ListaSimple:
     def __init__(self):
         self.primero = None
         self.ultimo = None
-        self.longitud = 0
 
     def insertarNodo(self, node):
         nuevoNodo = Nodo(node)
@@ -14,7 +13,6 @@ class ListaSimple:
         else: 
             self.ultimo.siguiente = nuevoNodo
             self.ultimo = nuevoNodo
-        self.longitud += 1
 
     def insertarEnFactura(self, nombreFactura, node):
         existeFactura = self.BuscarPorNombre(nombreFactura)
@@ -26,9 +24,6 @@ class ListaSimple:
                     break
                 else:
                     aux = aux.siguiente
-    
-    def obtenerLongitud(self):
-        return self.longitud
     
     def obtenerNodoPorIndice(self, indice):
         contador = 0

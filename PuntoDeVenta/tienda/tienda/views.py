@@ -1,9 +1,11 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from tienda.Back.cliente import *
+from tienda.Back.producto import *
 from tienda.Back.lista_simple import *
 
 lista_clientes = ListaSimple()
+lista_productos = ListaSimple()
 
 
 def hello_world(request):
@@ -35,12 +37,11 @@ def listar_clientes(request):
     clientes = []
 
     # Suponiendo que `lista_clientes` es tu lista enlazada de clientes
-    longitud = lista_clientes.obtenerLongitud()
+    longitud = int(lista_clientes.cantidadElementos())
 
     # Iterar a través de la lista enlazada para obtener los clientes
     for i in range(longitud):
         cliente = lista_clientes.obtenerNodoPorIndice(i)
-        print(cliente.nombre)
         # Asegúrate de agregar solo los atributos necesarios del cliente a la lista
         clientes.append({
             'dpi': cliente.dpi,
@@ -53,8 +54,41 @@ def listar_clientes(request):
     # Renderizar la plantilla con la lista de clientes
     return render(request, 'verClientes.html', {'clientes': clientes})
 
-def agregarProducto(request):
+def agregar_producto(request):
+    if request.method == 'POST':
+        id = request.POST.get('id')
+        nombre = request.POST.get('nombre')
+        descripcion = request.POST.get('descripcion')
+        precio = request.POST.get('precio')
+        stock = request.POST.get('stock')
+
+        nuevoProducto = Producto(id, nombre, descripcion,precio, stock)  # Crear una instancia de Producto
+        lista_productos.insertarNodo(nuevoProducto)  # Insertar el producto en la lista de productos
+
+        return render(request, 'agregarProducto.html')  # Renderizar una página de éxito o redirigir a otra vista
+
     return render(request, 'agregarProducto.html')
+
+def listar_productos(request):
+    productos = []
+
+    # Obtén la longitud de la lista de productos
+    longitud = lista_productos.cantidadElementos()
+
+    # Iterar a través de la lista enlazada para obtener los productos
+    for i in range(longitud):
+        producto = lista_productos.obtenerNodoPorIndice(i)
+        print(producto.nombre)
+
+        # Asegúrate de acceder correctamente a los atributos del producto
+        productos.append({
+            'id': producto.id,
+            'nombre': producto.nombre,
+            'descripcion': producto.descripcion,
+            'precio': producto.precio,
+            'stock': producto.stock,
+        })
+    return render(request, 'verProductos.html', {'productos': productos})
 
 def agregarFactura(request):
     return render(request, 'agregarFactura.html')
