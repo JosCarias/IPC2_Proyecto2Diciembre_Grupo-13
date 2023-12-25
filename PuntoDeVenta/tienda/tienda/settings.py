@@ -56,7 +56,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            'G:\\IPC2 La venganza\\laboratorio\\proyecto2\\r-IPC2_Proyecto2Diciembre_Grupo-13\\Front\\tienda\\tienda\\templates',
+            'C:/Users/josue/OneDrive/Escritorio/IPC2_Proyecto2Diciembre_Grupo-13/PuntoDeVenta/tienda/tienda/templates/',
         ],
         'APP_DIRS': True,
         'OPTIONS': {

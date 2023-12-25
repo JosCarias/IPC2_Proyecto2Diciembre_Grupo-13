@@ -21,7 +21,8 @@ urlpatterns = [
     path('hello/', views.hello_world, name='hello_world'),
     path('test/', views.test_page_view, name='test_page'),
     path('', views.index, name='index'),
-    path('Cliente/', views.agregarCliente, name='agregarClientes'),
+    path('Cliente/', views.agregarCliente, name='agregar_cliente'),
+    path('Cliente/clientes/', views.listar_clientes, name='ver_clientes'),
     path('Producto/', views.agregarProducto, name='agregarProducto'),
     path('Venta/', views.agregarFactura, name='agregarFactura'),
 ]

@@ -1,10 +1,11 @@
-from nodo import Nodo
+from .nodo import Nodo
 
 class ListaSimple:
 
     def __init__(self):
         self.primero = None
         self.ultimo = None
+        self.longitud = 0
 
     def insertarNodo(self, node):
         nuevoNodo = Nodo(node)
@@ -13,6 +14,7 @@ class ListaSimple:
         else: 
             self.ultimo.siguiente = nuevoNodo
             self.ultimo = nuevoNodo
+        self.longitud += 1
 
     def insertarEnFactura(self, nombreFactura, node):
         existeFactura = self.BuscarPorNombre(nombreFactura)
@@ -24,7 +26,24 @@ class ListaSimple:
                     break
                 else:
                     aux = aux.siguiente
+    
+    def obtenerLongitud(self):
+        return self.longitud
+    
+    def obtenerNodoPorIndice(self, indice):
+        contador = 0
+        aux = self.primero
+        
+        while aux is not None:
+            if contador == indice:
+                return aux.node  # Devuelve el nodo en la posición deseada
 
+            aux = aux.siguiente
+            contador += 1
+        
+        # Si el índice está fuera del rango de la lista, puedes manejarlo devolviendo None o levantando una excepción, por ejemplo.
+        return None
+    
     def ImprimirProducto(self):
         aux = self.primero
         while aux != None:
