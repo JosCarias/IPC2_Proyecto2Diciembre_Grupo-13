@@ -6,6 +6,7 @@ class Producto:
         self.descripcion = descripcion
         self.precio = precio
         self.stock = stock
+        self.cantidadVentas = 0
 
     
     def __str__(self) -> str:
