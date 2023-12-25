@@ -19,4 +19,11 @@ from . import views
 
 urlpatterns = [
     path('hello/', views.hello_world, name='hello_world'),
+    path('test/', views.test_page_view, name='test_page'),
+    path('', views.index, name='index'),
+    path('Cliente/', views.agregarCliente, name='agregarClientes'),
+    path('Producto/', views.agregarProducto, name='agregarProducto'),
+    path('Venta/', views.agregarFactura, name='agregarFactura'),
 ]
+
+# python manage.py runserver
