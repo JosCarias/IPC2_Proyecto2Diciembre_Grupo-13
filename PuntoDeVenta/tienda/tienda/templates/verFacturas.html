@@ -17,40 +17,40 @@
                     window.location.href = 'http://127.0.0.1:8000/';
                 }
             </script>
-            <button type="button" class="btn btn-info" onclick="VerClientes()">Crear producto</button>
+            <button type="button" class="btn btn-info" onclick="VerFacturas()">Crear factura</button>
             <script>
-                function VerClientes() {
+                function VerFacturas() {
                     // Cambiar la URL actual
-                    window.location.href = 'http://127.0.0.1:8000/Producto/';
+                    window.location.href = 'http://127.0.0.1:8000/Venta/';
                 }
             </script>
         </fieldset>
     </div>
     <div class="container mt-4" style=" background-color: #FDEDEC;border-radius: 10px;  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); ">
-        <h1>Listado de productos</h1>    
-        <fieldset>   
+        <h1>Listado de Clientes</h1>
+        <fieldset>
             <table  style="background-color: #EBEDEF;border-radius: 10px;  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); border: 2px solid #000">
                 <thead>
                     <tr>
-                        <th style="border: 2px solid #000;border-radius: 5px;">id</th>
-                        <th style="border: 2px solid #000;border-radius: 5px;">nombre</th>
-                        <th style="border: 2px solid #000;border-radius: 5px;">descripcion</th>
-                        <th style="border: 2px solid #000;border-radius: 5px;">precio</th>
-                        <th style="border: 2px solid #000;border-radius: 5px;">stock</th>
+                        <th style="border: 2px solid #000;border-radius: 5px;">DPI</th>
+                        <th style="border: 2px solid #000;border-radius: 5px;">NIT</th>
+                        <th style="border: 2px solid #000;border-radius: 5px;">Nombre</th>
+                        <th style="border: 2px solid #000;border-radius: 5px;">Direccion</th>
+                        <th style="border: 2px solid #000;border-radius: 5px;">Correo</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for producto in productos %}
+                    {% for cliente in clientes %}
                         <tr>
-                            <td style="border: 2px solid #000;border-radius: 5px;">{{ producto.id }}</td>
-                            <td style="border: 2px solid #000;border-radius: 5px;">{{ producto.nombre }}</td>
-                            <td style="border: 2px solid #000;border-radius: 5px;">{{ producto.descripcion }}</td>
-                            <td style="border: 2px solid #000;border-radius: 5px;">{{ producto.precio }}</td>
-                            <td style="border: 2px solid #000;border-radius: 5px;">{{ producto.stock }}</td>
+                            <td style="border: 2px solid #000;border-radius: 5px;">{{ cliente.dpi }}</td>
+                            <td style="border: 2px solid #000;border-radius: 5px;">{{ cliente.nit }}</td>
+                            <td style="border: 2px solid #000;border-radius: 5px;">{{ cliente.nombre }}</td>
+                            <td style="border: 2px solid #000;border-radius: 5px;">{{ cliente.direccion }}</td>
+                            <td style="border: 2px solid #000;border-radius: 5px;">{{ cliente.correo }}</td>
                         </tr>
                     {% endfor %}
-                    </tbody>
-                </table>
+                </tbody>
+            </table>
         </fieldset>
     </div>
 </body>

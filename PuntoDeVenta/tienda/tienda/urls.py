@@ -25,7 +25,8 @@ urlpatterns = [
     path('Cliente/clientes/', views.listar_clientes, name='ver_clientes'),
     path('Producto/', views.agregar_producto, name='agregar_Producto'),
     path('Producto/productos/', views.listar_productos, name='ver_Producto'),
-    path('Venta/', views.agregarFactura, name='agregarFactura'),
+    path('Venta/', views.agregar_factura, name='agregar_Factura'),
+    path('Venta/ventas/', views.listar_facturas, name='ver_Factura'),
 ]
 
 # python manage.py runserver

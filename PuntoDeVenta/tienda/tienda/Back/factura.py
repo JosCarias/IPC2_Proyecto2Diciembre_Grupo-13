@@ -1,4 +1,4 @@
-from lista_simple import ListaSimple
+from .lista_simple import ListaSimple
 
 
 

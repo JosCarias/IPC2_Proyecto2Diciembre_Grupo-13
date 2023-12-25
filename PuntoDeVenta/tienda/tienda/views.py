@@ -2,10 +2,12 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from tienda.Back.cliente import *
 from tienda.Back.producto import *
+from tienda.Back.factura import *
 from tienda.Back.lista_simple import *
 
 lista_clientes = ListaSimple()
 lista_productos = ListaSimple()
+lista_facturas = ListaSimple()
 
 
 def hello_world(request):
@@ -90,9 +92,39 @@ def listar_productos(request):
         })
     return render(request, 'verProductos.html', {'productos': productos})
 
-def agregarFactura(request):
-    return render(request, 'agregarFactura.html')
+def agregar_factura(request):
+    if request.method == 'POST':
+        numeroFactura = request.POST.get('numeroFactura')
+        nit = request.POST.get('nit')
+        nombre = request.POST.get('nombre')
+        total = request.POST.get('total')
 
+        nuevaFactura = Factura(numeroFactura, nit, nombre, total)  # Crear una instancia de Factura
+        lista_facturas.insertarNodo(nuevaFactura)  # Insertar la factura en la lista de facturas
 
+        return render(request, 'agregarFactura.html')  # Renderizar una página de éxito o redirigir a otra vista
+
+    return render(request, 'agregarFactura.html')  
+
+def listar_facturas(request):
+    productos = []
+
+    # Obtén la longitud de la lista de productos
+    longitud = lista_productos.cantidadElementos()
+
+    # Iterar a través de la lista enlazada para obtener los productos
+    for i in range(longitud):
+        producto = lista_productos.obtenerNodoPorIndice(i)
+        print(producto.nombre)
+
+        # Asegúrate de acceder correctamente a los atributos del producto
+        productos.append({
+            'id': producto.id,
+            'nombre': producto.nombre,
+            'descripcion': producto.descripcion,
+            'precio': producto.precio,
+            'stock': producto.stock,
+        })
+    return render(request, 'verFacturas.html', {'productos': productos})
 
 # python manage.py runserver
