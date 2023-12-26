@@ -19,6 +19,9 @@ def test_page_view(request):
 def index(request):
     return render(request, 'index.html')
 
+def estadisca(request):
+    return render(request, 'verGraficas.html')
+
 def agregarCliente(request):
     if request.method == 'POST':
         dpi = request.POST.get('dpi')
@@ -105,6 +108,8 @@ def agregar_factura(request):
 
         nuevaFactura = Factura(numero, nit, nombre, total)
         lista_facturas.insertarNodo(nuevaFactura)
+        
+        print(nombre)
 
         return render(request, 'agregarFactura.html')  # Página de éxito o redirección
 
