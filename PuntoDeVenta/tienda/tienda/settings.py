@@ -56,8 +56,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            'C:/Users/josue/OneDrive/Escritorio/IPC2_Proyecto2Diciembre_Grupo-13/PuntoDeVenta/tienda/tienda/templates/',
-            #'C:\\Users\\JS\\Desktop\\r-IPC2_Proyecto2Diciembre_Grupo-13\\PuntoDeVenta\\tienda\\tienda\\templates',
+            #'C:/Users/josue/OneDrive/Escritorio/IPC2_Proyecto2Diciembre_Grupo-13/PuntoDeVenta/tienda/tienda/templates/',
+            'C:\\Users\\JS\\Desktop\\r-IPC2_Proyecto2Diciembre_Grupo-13\\PuntoDeVenta\\tienda\\tienda\\templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {

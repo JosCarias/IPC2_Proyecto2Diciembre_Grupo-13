@@ -77,15 +77,15 @@ def EliminarFactura():
 def VerFacturas():
     lista_facturas.ImprimirFactura()
 
-def InsertarProductoEnFactura():
-    nombre = input('Ingrese el nombre del cliente, para agregar productos a su factura:\n')
+def InsertarProductoEnFactura(cliente,nombreProducto):
+    nombre = cliente
     buesqueda = lista_facturas.BuscarPorNombre(nombre)
     if buesqueda:
-        nombreProducto = input('Ingrese el nombre del producto a agregar:\n')
         busquedaProducto = lista_productos.BuscarPorNombre(nombreProducto)
         if busquedaProducto:
             busquedaProducto.cantidadVentas += 1
             lista_facturas.insertarEnFactura(nombre,busquedaProducto)
+            print('agregado')
         else:
             print(f'No existe producto con nombre: {nombreProducto}')
     else:

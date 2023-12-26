@@ -106,18 +106,26 @@ def listar_productos(request):
 def agregar_factura(request):
     if request.method == 'POST':
         numero = request.POST.get('numeroFactura')
-        nit = request.POST.get('nit')
         nombre = request.POST.get('nombreCliente')  # Ajustar el nombre del campo según el formulario
         total = request.POST.get('total')
-        productos = request.POST.get('productos')
+        nombreProducto = request.POST.get('productos')
+        allProducto = nombreProducto.split(',')
 
-        # Aquí puedes realizar el manejo necesario con los datos de productos, 
-        # como dividirlos, procesarlos, etc., dependiendo de cómo estén estructurados en tu aplicación.
-
-        nuevaFactura = Factura(numero, nit, nombre, total)
+        # Este segmento de codigo, sirve para la informacion de la factura
+        nit = lista_clientes.BuscarPorNombre(nombre).nit
+        nombre = lista_clientes.BuscarPorNombre(nombre).nombre
+        total = total
+        nuevaFactura = Factura(numero,nit,nombre,total)
         lista_facturas.insertarNodo(nuevaFactura)
-        
-        print(nombre)
+
+        buesqueda = lista_facturas.BuscarPorNombre(nombre)
+        if buesqueda:
+        # se realiza el ingreso de productos
+            for unProducto in allProducto:
+                busquedaProducto = lista_productos.BuscarPorNombre(unProducto)
+                if busquedaProducto:
+                    busquedaProducto.cantidadVentas += 1
+                    lista_facturas.insertarEnFactura(nombre,busquedaProducto)
 
         return render(request, 'agregarFactura.html')  # Página de éxito o redirección
 
@@ -129,18 +137,24 @@ def listar_facturas(request):
     # Verificar si existen facturas en la lista antes de iterar
     if lista_facturas.cantidadElementos() > 0:
         longitud = lista_facturas.cantidadElementos()
-
+        if lista_productos.cantidadElementos() > 0:
+            tamanio = lista_productos.cantidadElementos()
         # Iterar a través de la lista enlazada para obtener las facturas
-        for i in range(longitud):
-            factura = lista_facturas.obtenerNodoPorIndice(i)
+            for i in range(longitud):
+                productos = []
+                for j in range(tamanio):
+                    factura = lista_facturas.obtenerNodoPorIndice(i)
 
-            # Acceder a los atributos correctos de la factura y agregarlos a la lista
-            facturas.append({
-                'numeroFactura': factura.numero,  # Acceder al atributo 'numero' en lugar de 'numeroFactura'
-                'nit': factura.nit,
-                'nombre': factura.nombre,
-                'total': factura.total,
-            })
+                    producto = lista_facturas.obtenerNodoPorIndice(i).productos.obtenerNodoPorIndice(j).nombre
+                    productos.append(producto)
+                    # Acceder a los atributos correctos de la factura y agregarlos a la lista
+                facturas.append({
+                    'numeroFactura': factura.numero,  # Acceder al atributo 'numero' en lugar de 'numeroFactura'
+                    'nit': factura.nit,
+                    'nombre': factura.nombre,
+                    'total': factura.total,
+                    'productos':productos,
+                })
 
     return render(request, 'verFacturas.html', {'facturas': facturas})
 
