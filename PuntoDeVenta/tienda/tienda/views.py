@@ -59,6 +59,14 @@ def listar_clientes(request):
     # Renderizar la plantilla con la lista de clientes
     return render(request, 'verClientes.html', {'clientes': clientes})
 
+def eliminar_cliente(request):
+    if request.method == 'GET':
+        nombre = request.GET.get('nombre')
+        lista_clientes.EliminarPorNombre(nombre) # Eliminar el cliente de la lista
+
+        return render(request, 'eliminarCliente.html')  # Renderiza una página de éxito o redirige a otra vista
+
+
 def agregar_producto(request):
     if request.method == 'POST':
         id = request.POST.get('id')
