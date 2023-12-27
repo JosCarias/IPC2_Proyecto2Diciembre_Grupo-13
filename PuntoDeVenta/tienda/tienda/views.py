@@ -144,9 +144,10 @@ def listar_facturas(request):
                 productos = []
                 for j in range(tamanio):
                     factura = lista_facturas.obtenerNodoPorIndice(i)
+                    if factura.productos.obtenerNodoPorIndice(j):
 
-                    producto = lista_facturas.obtenerNodoPorIndice(i).productos.obtenerNodoPorIndice(j).nombre
-                    productos.append(producto)
+                        producto = lista_facturas.obtenerNodoPorIndice(i).productos.obtenerNodoPorIndice(j).nombre
+                        productos.append(producto)
                     # Acceder a los atributos correctos de la factura y agregarlos a la lista
                 facturas.append({
                     'numeroFactura': factura.numero,  # Acceder al atributo 'numero' en lugar de 'numeroFactura'
@@ -186,6 +187,23 @@ def eliminar_factura(request):
 
         return render(request, 'eliminarFactura.html')  # Renderiza una página de éxito o redirige a otra vista
 
+def editar_factura(request):
+    if request.method == 'POST':
+        nombreAnterior = request.POST.get('nombreAnterior')
+        numero = request.POST.get('numeroFactura')
+        nuevoNombre = request.POST.get('nombreCliente')  # Ajustar el nombre del campo según el formulario
+        nit = lista_clientes.BuscarPorNombre(nuevoNombre).nit
+        total = request.POST.get('total')
+        nombreProducto = request.POST.get('productos')
+        allProducto = nombreProducto.split(',')
+        
+        factura = lista_facturas.BuscarPorNombre(nombreAnterior)
 
+        if factura:
+            # Se asignan los nuevos datos
+            lista_facturas.EditarPorNombreFactura(nombreAnterior,numero,nit,nuevoNombre,total)
+
+        return render(request, 'editarFactura.html')
+    return render(request, 'editarFactura.html')
 
 # python manage.py runserver

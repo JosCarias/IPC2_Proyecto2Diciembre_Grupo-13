@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Punto de ventas</title>
+    <!-- Agregar referencia al archivo CSS de Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Enlace al archivo CSS -->
+</head>
+<body style="background-color: #78281F;">
+    <div class="container mt-4" style="background-color: #FDEDEC;border-radius: 10px;  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+        <fieldset  style="border: 2px;border-radius: 5px;padding: 10px;">
+            <button type="button" class="btn btn-primary mr-2" onclick="index()">Regresar</button>
+            <script>
+                function index() {
+                    // Cambiar la URL actual
+                    window.location.href = 'http://127.0.0.1:8000/';
+                }
+            </script>
+            <button type="button" class="btn btn-info" onclick="VerFacturas()">Crear factura</button>
+            <script>
+                function VerFacturas() {
+                    // Cambiar la URL actual
+                    window.location.href = 'http://127.0.0.1:8000/Venta/';
+                }
+            </script>
+        </fieldset>
+    </div>
+    <div class="container mt-4" style="background-color: #FDEDEC;border-radius: 10px;  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+        <h1>Punto de venta</h1>
+        <fieldset  style="border: 2px solid #000;border-radius: 5px;padding: 10px;">
+            <legend>Editar Factura:</legend>
+            <!-- Formulario de factura -->
+            <form action="{% url 'editar_factura' %}" method="post">
+                {% csrf_token %}
+                <label for="Nombre">Nombre de la factura a editar:</label>
+                <input type="text" class="form-control" id="Nombre" name="nombreAnterior" required>
+                <label for="Numero">Numero corelativo:</label>
+                <input type="text" class="form-control" id="Numero" name="numeroFactura" required>
+                <label for="Nombre">Nombre cliente:</label>
+                <input type="text" class="form-control" id="Nombre" name="nombreCliente" required>
+                <!-- <label for="NIT">NIT:</label>
+                <input type="text" class="form-control" id="NIT" name="nit" required> -->
+                <label for="Total">Total:</label>
+                <input type="text" class="form-control" id="Total" name="total" required>
+                <!-- <label for="Productos">Productos (separados por comas):</label> -->
+                <label for="Productos">Ingrese los productos separados por una coma:</label>
+                <input type="text" class="form-control" id="Productos" name="productos" required>
+            
+                <!-- Botón para enviar el formulario -->
+                <button type="submit" class="btn btn-success mr-2">Editar</button>
+            </form>
+        </fieldset>
+    </div>
+    
+    <!-- Agregar referencia al archivo JavaScript de Bootstrap (opcional) -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
