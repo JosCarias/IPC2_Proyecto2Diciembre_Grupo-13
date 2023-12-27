@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,9 +9,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- Enlace al archivo CSS -->
 </head>
+
 <body style="background-color: #78281F;">
     <div class="container mt-4" style="background-color: #FDEDEC;border-radius: 10px;  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
-        <fieldset  style="border: 2px;border-radius: 5px;padding: 10px;">
+        <fieldset style="border: 2px;border-radius: 5px;padding: 10px;">
             <button type="button" class="btn btn-primary mr-2" onclick="index()">Regresar</button>
             <script>
                 function index() {
@@ -19,17 +21,31 @@
                 }
             </script>
             <button type="button" class="btn btn-info" onclick="verProductos()">Ver Productos</button>
+            <button type="button" class="btn btn-info" onclick="EliminarProducto()">Eliminar Producto</button>
+            <button type="button" class="btn btn-info" onclick="BuscarProducto()">Buscar Producto</button>
             <script>
                 function verProductos() {
                     // Cambiar la URL actual
                     window.location.href = 'http://127.0.0.1:8000/Producto/productos/';
                 }
             </script>
+            <script>
+                function EliminarProducto() {
+                    // Cambiar la URL actual
+                    window.location.href = 'http://127.0.0.1:8000/Producto/eliminar/';
+                }
+            </script>
+            <script>
+                function BuscarProducto() {
+                    // Cambiar la URL actual
+                    window.location.href = 'http://127.0.0.1:8000/Producto/buscar/';
+                }
+            </script>
         </fieldset>
     </div>
     <div class="container mt-4" style="background-color: #FDEDEC;border-radius: 10px;  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
         <h1>Punto de venta</h1>
-        <fieldset  style="border: 2px solid #000;border-radius: 5px;padding: 10px;">
+        <fieldset style="border: 2px solid #000;border-radius: 5px;padding: 10px;">
             <legend>Agregar Producto:</legend>
             <form action="{% url 'agregar_Producto' %}" method="post">
                 {% csrf_token %}
@@ -43,13 +59,14 @@
                 <input type="text" class="form-control" id="Precio" name="precio" required>
                 <label for="Stock">Stock:</label>
                 <input type="text" class="form-control" id="Stock" name="stock" required>
-                
+
                 <!-- Botón para enviar el formulario -->
                 <button type="submit" class="btn btn-success mr-2">Agregar</button>
             </form>
     </div>
-    
+
     <!-- Agregar referencia al archivo JavaScript de Bootstrap (opcional) -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>

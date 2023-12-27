@@ -159,6 +159,7 @@ def listar_facturas(request):
 
     return render(request, 'verFacturas.html', {'facturas': facturas})
 
+
 def buscar_Factura(request):
     if request.method == 'POST':
         factura_id = request.POST.get('id')  # Obtén el ID de la factura del formulario
@@ -221,5 +222,45 @@ def editar_factura(request):
 
         return render(request, 'editarFactura.html')
     return render(request, 'editarFactura.html')
+
+def buscar_cliente(request):
+    if request.method == 'POST':
+        nombre_cliente = request.POST.get('id')  
+        cliente = lista_clientes.BuscarPorNombre(nombre_cliente)   
+
+        # Verificar si el cliente se encontró
+        if cliente:
+
+            return render(request, 'buscarCliente.html', {'cliente': cliente})
+        else:
+            mensaje_error = f"No se encontró ningun cliente con el nombre: {nombre_cliente}"
+            return render(request, 'buscarCliente.html', {'error_message': mensaje_error})
+
+    return render(request, 'buscarCliente.html')
+
+
+def buscar_producto(request):
+    if request.method == 'POST':
+        nombre_producto = request.POST.get('id')  
+        producto = lista_productos.BuscarPorNombre(nombre_producto)   
+
+        # Verificar si el cliente se encontró
+        if producto:
+
+            return render(request, 'buscarProducto.html', {'producto': producto})
+        else:
+            mensaje_error = f"No se encontró ningun producto con el nombre: {nombre_producto}"
+            return render(request, 'buscarCliente.html', {'error_message': mensaje_error})
+
+    return render(request, 'buscarProducto.html')
+
+
+def eliminar_producto(request):
+    if request.method == 'GET':
+        nombre = request.GET.get('nombre')
+        lista_productos.EliminarPorNombre(nombre) # Eliminar el producto de la lista
+
+        return render(request, 'eliminarProducto.html')
+
 
 # python manage.py runserver
