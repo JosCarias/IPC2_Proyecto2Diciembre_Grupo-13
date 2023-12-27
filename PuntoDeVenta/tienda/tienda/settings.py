@@ -56,8 +56,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            #'C:/Users/josue/OneDrive/Escritorio/IPC2_Proyecto2Diciembre_Grupo-13/PuntoDeVenta/tienda/tienda/templates/',
-            'C:\\Users\\JS\\Desktop\\r-IPC2_Proyecto2Diciembre_Grupo-13\\PuntoDeVenta\\tienda\\tienda\\templates',
+            os.path.join(BASE_DIR, 'tienda', 'templates')
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -81,7 +80,6 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        # ... (otras configuraciones de la base de datos)
     }
 }
 
