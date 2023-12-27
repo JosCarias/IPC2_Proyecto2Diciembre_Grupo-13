@@ -24,6 +24,14 @@ class ListaSimple:
                     break
                 else:
                     aux = aux.siguiente
+                    
+    def buscarPorId(self, factura_id):
+        actual = self.primero
+        while actual:
+            if actual.data.id == factura_id:  # Suponiendo que cada factura tiene un atributo 'id'
+                return actual.data  # Devuelve la factura si se encuentra por ID
+            actual = actual.siguiente
+        return None
     
     def obtenerNodoPorIndice(self, indice):
         contador = 0

@@ -158,4 +158,15 @@ def listar_facturas(request):
 
     return render(request, 'verFacturas.html', {'facturas': facturas})
 
+def buscar_Factura(request):
+    factura_encontrada = None
+
+    if request.method == 'GET':
+        id_factura = request.GET.get('id')
+        factura_encontrada = lista_facturas.buscarPorId(id_factura)
+
+    context = {'factura': factura_encontrada}
+    return render(request, 'buscarFactura.html', context)
+
+
 # python manage.py runserver

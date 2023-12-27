@@ -24,6 +24,27 @@
                     window.location.href = 'http://127.0.0.1:8000/Venta/ventas';
                 }
             </script>
+            <button type="button" class="btn btn-info" onclick=" buscarFacturas()">Buscar factura</button>
+            <script>
+                function buscarFacturas() {
+                    // Cambiar la URL actual
+                    window.location.href = 'http://127.0.0.1:8000/Venta/ventas/buscar';
+                }
+            </script>
+            <button type="button" class="btn btn-info" onclick="eliminarFacturas()">Eliminar factura</button>
+            <script>
+                function eliminarFacturas() {
+                    // Cambiar la URL actual
+                    window.location.href = 'http://127.0.0.1:8000/Venta/ventas/eliminar';
+                }
+            </script>
+            <button type="button" class="btn btn-info" onclick="editarFacturas()">Editar factura</button>
+            <script>
+                function editarFacturas() {
+                    // Cambiar la URL actual
+                    window.location.href = 'http://127.0.0.1:8000/Venta/ventas/editar';
+                }
+            </script>
         </fieldset>
     </div>
     <div class="container mt-4" style="background-color: #FDEDEC; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
