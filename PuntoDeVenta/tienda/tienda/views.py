@@ -168,5 +168,13 @@ def buscar_Factura(request):
     context = {'factura': factura_encontrada}
     return render(request, 'buscarFactura.html', context)
 
+def eliminar_factura(request):
+    if request.method == 'GET':
+        nombre = request.GET.get('nombre')
+        lista_facturas.EliminarPorNombre(nombre) # Eliminar la factura de la lista
+
+        return render(request, 'eliminarFactura.html')  # Renderiza una página de éxito o redirige a otra vista
+
+
 
 # python manage.py runserver
