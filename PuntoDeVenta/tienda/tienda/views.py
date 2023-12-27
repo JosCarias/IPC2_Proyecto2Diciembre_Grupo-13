@@ -159,14 +159,25 @@ def listar_facturas(request):
     return render(request, 'verFacturas.html', {'facturas': facturas})
 
 def buscar_Factura(request):
-    factura_encontrada = None
+    if request.method == 'POST':
+        factura_id = request.POST.get('id')  # Obtén el ID de la factura del formulario
+        factura = lista_facturas.buscarPorNumeroFactura(factura_id)     
+        productos = []
 
-    if request.method == 'GET':
-        id_factura = request.GET.get('id')
-        factura_encontrada = lista_facturas.buscarPorId(id_factura)
+        # Verificar si la factura se encontró
+        if factura:
+            # Recuperar los productos asociados a la factura encontrada
+            for i in range(factura.productos.cantidadElementos()):
+                producto = factura.productos.obtenerNodoPorIndice(i).nombre
+                productos.append(producto)
 
-    context = {'factura': factura_encontrada}
-    return render(request, 'buscarFactura.html', context)
+            return render(request, 'buscarFactura.html', {'factura': factura, 'productos': productos})
+        else:
+            # Si la factura no se encuentra, puedes manejarlo aquí
+            mensaje_error = f"No se encontró ninguna factura con el ID: {factura_id}"
+            return render(request, 'buscarFactura.html', {'error_message': mensaje_error})
+
+    return render(request, 'buscarFactura.html')
 
 
 # python manage.py runserver

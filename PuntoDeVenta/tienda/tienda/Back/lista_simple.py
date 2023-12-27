@@ -25,11 +25,11 @@ class ListaSimple:
                 else:
                     aux = aux.siguiente
                     
-    def buscarPorId(self, factura_id):
+    def buscarPorNumeroFactura(self, numero_factura):
         actual = self.primero
-        while actual:
-            if actual.data.id == factura_id:  # Suponiendo que cada factura tiene un atributo 'id'
-                return actual.data  # Devuelve la factura si se encuentra por ID
+        while actual is not None:
+            if actual.node.numero == numero_factura:  # Compara el número de factura en el atributo 'numero' de 'Factura'
+                return actual.node
             actual = actual.siguiente
         return None
     

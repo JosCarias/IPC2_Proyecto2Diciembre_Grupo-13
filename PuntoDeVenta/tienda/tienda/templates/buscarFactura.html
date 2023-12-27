@@ -29,12 +29,16 @@
     </div>
     <div class="container mt-4" style="background-color: #FDEDEC; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
         <h1>Detalles de la Factura</h1>
-        <fieldset style="border: 2px solid #000; border-radius: 5px; padding: 10px;">
-            <legend>Detalles de la factura encontrada:</legend>
+        <form action="{% url 'buscar_Factura' %}" method="post">
             {% csrf_token %}
-            <label for="id">Id factura:</label>
+            <label for="id">ID Factura:</label>
             <input type="text" class="form-control" id="id" name="id" required>
-            <table style="border-collapse: collapse; width: 100%;">
+            <button type="submit" class="btn btn-success mr-2">Buscar</button>
+        </form>
+        
+        <fieldset style="border: 2px solid #000; border-radius: 5px; padding: 10px;">
+            <legend>Detalles de la factura:</legend>
+            <table style="border-collapse: collapse; width: 100%; background-color: #EBEDEF;">
                 <thead>
                     <tr>
                         <th>ID Factura</th>
@@ -46,11 +50,17 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{{ factura.numeroFactura }}</td>
-                        <td>{{ factura.nombre }}</td>
-                        <td>{{ factura.nit }}</td>
-                        <td>{{ factura.total }}</td>
-                        <td>{{ factura.productos }}</td>
+                        {% if factura %}
+                            <td>{{ factura.numero }}</td>
+                            <td>{{ factura.nombre }}</td>
+                            <td>{{ factura.nit }}</td>
+                            <td>{{ factura.total }}</td>
+                            {% for producto in productos %}
+                                <td>{{ producto }}</td>
+                            {% endfor %}
+                        {% else %}
+                            <td colspan="5">Factura no encontrada</td>
+                        {% endif %}
                     </tr>
                 </tbody>
             </table>
