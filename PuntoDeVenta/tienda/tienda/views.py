@@ -203,6 +203,22 @@ def editar_factura(request):
             # Se asignan los nuevos datos
             lista_facturas.EditarPorNombreFactura(nombreAnterior,numero,nit,nuevoNombre,total)
 
+            # Se encarga de contabilizar la cantidad de productos anteriores en la factura
+            productosEnFactura = lista_facturas.BuscarPorNombre(nuevoNombre).productos.cantidadElementos()
+
+            # Vaciamos el listado de productos anteriores en la factura
+            while productosEnFactura != 0:
+                productoAEliminar = lista_facturas.BuscarPorNombre(nuevoNombre).productos.BuscarPorIndice(0).nombre
+                lista_facturas.EliminarProductoEnFactura(nuevoNombre,productoAEliminar)
+                productosEnFactura = productosEnFactura -1
+
+            # Agregamos los nuevos productos
+            for unProducto in allProducto:
+                busquedaProducto = lista_productos.BuscarPorNombre(unProducto)
+                if busquedaProducto:
+                    busquedaProducto.cantidadVentas += 1
+                    lista_facturas.insertarEnFactura(nuevoNombre,busquedaProducto)
+
         return render(request, 'editarFactura.html')
     return render(request, 'editarFactura.html')
 

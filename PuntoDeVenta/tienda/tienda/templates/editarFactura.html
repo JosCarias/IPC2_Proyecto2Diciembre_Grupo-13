@@ -25,6 +25,13 @@
                     window.location.href = 'http://127.0.0.1:8000/Venta/';
                 }
             </script>
+            <button type="button" class="btn btn-info" onclick="VerFacturas()">Ver Factura</button>
+            <script>
+                function VerFacturas() {
+                    // Cambiar la URL actual
+                    window.location.href = 'http://127.0.0.1:8000/Venta/ventas';
+                }
+            </script>
         </fieldset>
     </div>
     <div class="container mt-4" style="background-color: #FDEDEC;border-radius: 10px;  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
@@ -36,16 +43,16 @@
                 {% csrf_token %}
                 <label for="Nombre">Nombre de la factura a editar:</label>
                 <input type="text" class="form-control" id="Nombre" name="nombreAnterior" required>
-                <label for="Numero">Numero corelativo:</label>
+                <label for="Numero">Nuevo numero corelativo:</label>
                 <input type="text" class="form-control" id="Numero" name="numeroFactura" required>
-                <label for="Nombre">Nombre cliente:</label>
+                <label for="Nombre">Nuevo nombre cliente:</label>
                 <input type="text" class="form-control" id="Nombre" name="nombreCliente" required>
                 <!-- <label for="NIT">NIT:</label>
                 <input type="text" class="form-control" id="NIT" name="nit" required> -->
-                <label for="Total">Total:</label>
+                <label for="Total">Nuevo total:</label>
                 <input type="text" class="form-control" id="Total" name="total" required>
                 <!-- <label for="Productos">Productos (separados por comas):</label> -->
-                <label for="Productos">Ingrese los productos separados por una coma:</label>
+                <label for="Productos">Ingrese los productos nuevos separados por una coma:</label>
                 <input type="text" class="form-control" id="Productos" name="productos" required>
             
                 <!-- Botón para enviar el formulario -->
