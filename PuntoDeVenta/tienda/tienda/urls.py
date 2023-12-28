@@ -35,7 +35,12 @@ urlpatterns = [
     path('Venta/ventas/buscar', views.buscar_Factura, name='buscar_Factura'),
     path('Venta/ventas/eliminar',views.eliminar_factura, name='eliminar_factura'),
     path('Venta/ventas/editar',views.editar_factura, name='editar_factura'),
+<<<<<<< Updated upstream
     path('estadisca/', views.estadistica, name='estadisca'),
+=======
+    path('estadisca/', views.estadisca, name='estadisca'),
+    path('generar_xml/', views.generar_xml, name='generar_xml'),
+>>>>>>> Stashed changes
 ]
 
 # python manage.py runserver

@@ -1,3 +1,5 @@
+from xml.etree.ElementTree import Element, SubElement, tostring
+from xml.dom import minidom
 from django.http import HttpResponse
 from django.shortcuts import render
 from tienda.Back.cliente import *
@@ -353,5 +355,73 @@ def eliminar_producto(request):
 
         return render(request, 'eliminarProducto.html')
 
+
+def generar_xml(request):
+    # Crear el elemento raíz del XML
+    root = Element("ListasAlmacenadas")
+
+    # Crear elementos secundarios y agregarlos al elemento raíz
+    tamanio_clientes = lista_clientes.cantidadElementos()
+    listaClientes = SubElement(root, "ListaClientes")
+    for i in range(tamanio_clientes):
+        client = lista_clientes.obtenerNodoPorIndice(i)
+        cliente = SubElement(listaClientes, 'cliente')
+
+        dpiCliente = SubElement(cliente, 'dpi')
+        dpiCliente.text = str(client.dpi)
+        nitCliente = SubElement(cliente, 'nit')
+        nitCliente.text = str(client.nit)
+        nombreCliente = SubElement(cliente, 'nombre')
+        nombreCliente.text = str(client.nombre)
+        direccionCliente = SubElement(cliente, 'direccion')
+        direccionCliente.text = str(client.direccion)
+        correoCliente = SubElement(cliente, 'correo')
+        correoCliente.text = str(client.correo)
+
+    tamanio_productos = lista_productos.cantidadElementos()
+    listaProductos = SubElement(root, "ListaProductos")
+    for j in range(tamanio_productos):
+        product = lista_productos.obtenerNodoPorIndice(j)
+        producto = SubElement(listaProductos, 'producto')
+
+        idProducto = SubElement(producto, 'id')
+        idProducto.text = str(product.id)      
+        nombreProducto = SubElement(producto, 'nombre')
+        nombreProducto.text = str(product.nombre)  
+        descripcionProducto = SubElement(producto, 'descripcion')
+        descripcionProducto.text = str(product.descripcion) 
+        precioProducto = SubElement(producto, 'precio')
+        precioProducto.text = str(product.precio) 
+        stockProducto = SubElement(producto, 'stock')
+        stockProducto.text = str(product.stock)              
+
+    tamanio_ventas = lista_facturas.cantidadElementos()
+    listaVentas = SubElement(root, "ListaVentas")
+    for k in range(tamanio_ventas):
+        venta = lista_facturas.obtenerNodoPorIndice(k)
+        factura = SubElement(listaVentas, 'factura')
+
+        numeroFactura = SubElement(factura, 'numero')
+        numeroFactura.text = str(venta.numero)
+        nitFactura = SubElement(factura, 'nit')
+        nitFactura.text = str(venta.nit)
+        nombreFactura = SubElement(factura, 'nombre')
+        nombreFactura.text = str(venta.nombre)
+        totalFactura = SubElement(factura, 'total')
+        totalFactura.text = str(venta.total)
+        productos = SubElement(factura, 'productos')
+
+        productosCant = venta.productos.cantidadElementos()
+        for h in range(productosCant):
+            prod = venta.productos.obtenerNodoPorIndice(h)
+            produ = SubElement(productos, 'producto')
+            produ.text = str(prod.nombre)
+
+    # Convertir el árbol XML a una cadena
+    xml_string = tostring(root, encoding="utf-8").decode("utf-8")
+
+    # Devolver la respuesta HTTP con el contenido XML
+    response = HttpResponse(xml_string, content_type="application/xml")
+    return response
 
 # python manage.py runserver
