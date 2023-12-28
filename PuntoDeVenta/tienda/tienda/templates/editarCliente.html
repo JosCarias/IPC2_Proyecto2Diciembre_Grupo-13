@@ -20,32 +20,11 @@
                     window.location.href = 'http://127.0.0.1:8000/';
                 }
             </script>
-            <button type="button" class="btn btn-info" onclick="VerClientes()">Ver Clientes</button>
-            <button type="button" class="btn btn-info" onclick="EliminarCliente()">Eliminar Cliente</button>
-            <button type="button" class="btn btn-info" onclick="BuscarCliente()">Buscar Cliente</button>
-            <button type="button" class="btn btn-info" onclick="EditarCliente()">Editar Cliente</button>
+            <button type="button" class="btn btn-info" onclick="verClientes()">Ver Clientes</button>
             <script>
-                function VerClientes() {
+                function verClientes() {
                     // Cambiar la URL actual
                     window.location.href = 'http://127.0.0.1:8000/Cliente/clientes/';
-                }
-            </script>
-            <script>
-                function EliminarCliente() {
-                    // Cambiar la URL actual
-                    window.location.href = 'http://127.0.0.1:8000/Cliente/eliminar/';
-                }
-            </script>
-            <script>
-                function BuscarCliente() {
-                    // Cambiar la URL actual
-                    window.location.href = 'http://127.0.0.1:8000/Cliente/buscar/';
-                }
-            </script>
-            <script>
-                function EditarCliente() {
-                    // Cambiar la URL actual
-                    window.location.href = 'http://127.0.0.1:8000/Cliente/editar/';
                 }
             </script>
         </fieldset>
@@ -53,31 +32,23 @@
     <div class="container mt-4" style="background-color: #FDEDEC;border-radius: 10px;  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
         <h1>Punto de venta</h1>
         <fieldset style="border: 2px solid #000;border-radius: 5px;padding: 10px;">
-            <legend>Agregar Cliente:</legend>
-            <!-- Formulario de Cliente -->
-            <form action="{% url 'agregar_cliente' %}" method="post">
+            <legend>Editar cliente:</legend>
+            <form action="{% url 'editar_cliente' %}" method="post">
                 {% csrf_token %}
-                <!-- Campos del formulario -->
-                <label for="NIT">N° de NIT:</label>
-                <input type="text" class="form-control" id="NIT" name="nit" required>
-
-                <!-- Otros campos del formulario también necesitan el atributo `name` -->
-                <label for="DPI">N° de DPI:</label>
+                <label for="DPI">DPI:</label>
                 <input type="text" class="form-control" id="DPI" name="dpi" required>
-
+                <label for="NIT">NIT:</label>
+                <input type="text" class="form-control" id="NIT" name="nit" required>
                 <label for="Nombre">Nombre:</label>
                 <input type="text" class="form-control" id="Nombre" name="nombre" required>
-
                 <label for="Direccion">Direccion:</label>
                 <input type="text" class="form-control" id="Direccion" name="direccion" required>
-
                 <label for="Correo">Correo:</label>
                 <input type="text" class="form-control" id="Correo" name="correo" required>
 
                 <!-- Botón para enviar el formulario -->
-                <button type="submit" class="btn btn-success mr-2">Agregar</button>
+                <button type="submit" class="btn btn-success mr-2">Editar</button>
             </form>
-        </fieldset>
     </div>
 
     <!-- Agregar referencia al archivo JavaScript de Bootstrap (opcional) -->

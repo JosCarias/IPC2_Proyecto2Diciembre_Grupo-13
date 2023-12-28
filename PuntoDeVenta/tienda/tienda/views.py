@@ -152,6 +152,29 @@ def agregar_producto(request):
 
     return render(request, 'agregarProducto.html')
 
+
+def editar_cliente(request):
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre')
+        dpi = request.POST.get('dpi')
+        nit = request.POST.get('nit')
+        direccion = request.POST.get('direccion')
+        correo = request.POST.get('correo')
+
+        cliente_existente = lista_clientes.BuscarPorNombre(nombre)
+        if cliente_existente:
+            # Modificar los atributos del cliente existente
+            cliente_existente.nombre = nombre
+            cliente_existente.dpi = dpi
+            cliente_existente.nit = nit
+            cliente_existente.direccion = direccion
+            cliente_existente.correo = correo
+
+            return render(request, 'editarCliente.html')  # Página de éxito o redirección
+
+    return render(request, 'editarCliente.html')
+
+
 def editar_producto(request):
     if request.method == 'POST':
         nombre = request.POST.get('nombre')

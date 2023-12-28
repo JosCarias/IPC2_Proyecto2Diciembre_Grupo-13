@@ -25,6 +25,7 @@ urlpatterns = [
     path('Cliente/clientes/', views.listar_clientes, name='ver_clientes'),    
     path('Cliente/eliminar/', views.eliminar_cliente, name='eliminar_cliente'),
     path('Cliente/buscar/', views.buscar_cliente, name='buscar_cliente'),
+    path('Cliente/editar/', views.editar_cliente, name='editar_cliente'),
     path('Producto/', views.agregar_producto, name='agregar_Producto'),
     path('Producto/productos/', views.listar_productos, name='ver_Producto'),
     path('Producto/eliminar/', views.eliminar_producto, name='eliminar_producto'),
@@ -35,12 +36,8 @@ urlpatterns = [
     path('Venta/ventas/buscar', views.buscar_Factura, name='buscar_Factura'),
     path('Venta/ventas/eliminar',views.eliminar_factura, name='eliminar_factura'),
     path('Venta/ventas/editar',views.editar_factura, name='editar_factura'),
-<<<<<<< Updated upstream
     path('estadisca/', views.estadistica, name='estadisca'),
-=======
-    path('estadisca/', views.estadisca, name='estadisca'),
     path('generar_xml/', views.generar_xml, name='generar_xml'),
->>>>>>> Stashed changes
 ]
 
 # python manage.py runserver
