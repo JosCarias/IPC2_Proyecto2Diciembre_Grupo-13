@@ -55,6 +55,39 @@ def estadistica(request):
 
     return render(request, 'verGraficas.html', {'image': image})
 
+# Este metodo se utiliza para la grafica del cliente top
+'''def estadistica(request):
+    x = []
+    y = []
+    elementos = lista_facturas.cantidadElementos()
+
+    if elementos > 0:
+        for i in range(elementos):
+            numeroProductos = lista_facturas.BuscarPorIndice(i).productos.cantidadElementos()
+            nombreCliente = lista_facturas.BuscarPorIndice(i).nombre
+            if numeroProductos > 0:
+                x.append(nombreCliente)
+                y.append(numeroProductos)
+
+    fig, ax = plt.subplots()
+    ax.plot(x, y)
+    plt.title('Cliente con mas productos')
+    plt.xlabel('Nombre cliente')
+    plt.ylabel('Cantidad productos comprados')
+
+    # Guardar la gráfica como imagen
+    buffer = io.BytesIO()
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+    image_png = buffer.getvalue()
+    buffer.close()
+
+    # Convertir la imagen a base64
+    graphic = base64.b64encode(image_png).decode('utf-8')
+    image = "data:image/png;base64," + graphic
+
+    return render(request, 'verGraficas.html', {'image': image})'''
+
 def agregarCliente(request):
     if request.method == 'POST':
         dpi = request.POST.get('dpi')
@@ -114,31 +147,6 @@ def agregar_producto(request):
         return render(request, 'agregarProducto.html')  # Renderizar una página de éxito o redirigir a otra vista
 
     return render(request, 'agregarProducto.html')
-
-def editar_producto(request):
-    if request.method == 'POST':
-        nombre = request.POST.get('nombre')
-        id = request.POST.get('id')
-        descripcion = request.POST.get('descripcion')
-        precio = request.POST.get('precio')
-        stock = request.POST.get('stock')
-
-        producto_existente = lista_productos.BuscarPorNombre(nombre)
-        if producto_existente:
-            # Modificar los atributos del producto existente
-            producto_existente.nombre = nombre
-            producto_existente.id = id
-            producto_existente.descripcion = descripcion
-            producto_existente.precio = precio
-            producto_existente.stock = stock
-
-            print('Editado con éxito')
-
-            return render(request, 'editarProducto.html')  # Página de éxito o redirección
-
-    return render(request, 'editarProducto.html')
-
-    return render(request, 'editarProducto.html')
 
 def listar_productos(request):
     productos = []
