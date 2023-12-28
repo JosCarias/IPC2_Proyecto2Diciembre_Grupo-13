@@ -34,7 +34,7 @@ urlpatterns = [
     path('Venta/ventas/buscar', views.buscar_Factura, name='buscar_Factura'),
     path('Venta/ventas/eliminar',views.eliminar_factura, name='eliminar_factura'),
     path('Venta/ventas/editar',views.editar_factura, name='editar_factura'),
-    path('estadisca/', views.estadisca, name='estadisca'),
+    path('estadisca/', views.estadistica, name='estadisca'),
 ]
 
 # python manage.py runserver

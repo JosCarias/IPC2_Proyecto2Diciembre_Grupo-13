@@ -4,6 +4,10 @@ from tienda.Back.cliente import *
 from tienda.Back.producto import *
 from tienda.Back.factura import *
 from tienda.Back.lista_simple import *
+import matplotlib.pyplot as plt
+import io
+import urllib, base64
+
 
 lista_clientes = ListaSimple()
 lista_productos = ListaSimple()
@@ -19,8 +23,37 @@ def test_page_view(request):
 def index(request):
     return render(request, 'index.html')
 
-def estadisca(request):
-    return render(request, 'verGraficas.html')
+def estadistica(request):
+    x = []
+    y = []
+    elementos = lista_productos.cantidadElementos()
+
+    if elementos > 0:
+        for i in range(elementos):
+            numeroVentas = int(lista_productos.BuscarPorIndice(i).cantidadVentas)
+            producto = lista_productos.BuscarPorIndice(i).nombre
+            if numeroVentas > 0:
+                x.append(producto)
+                y.append(numeroVentas)
+
+    fig, ax = plt.subplots()
+    ax.plot(x, y)
+    plt.title('Productos más vendidos')
+    plt.xlabel('Nombre producto')
+    plt.ylabel('Cantidad vendido')
+
+    # Guardar la gráfica como imagen
+    buffer = io.BytesIO()
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+    image_png = buffer.getvalue()
+    buffer.close()
+
+    # Convertir la imagen a base64
+    graphic = base64.b64encode(image_png).decode('utf-8')
+    image = "data:image/png;base64," + graphic
+
+    return render(request, 'verGraficas.html', {'image': image})
 
 def agregarCliente(request):
     if request.method == 'POST':
