@@ -132,13 +132,10 @@ def editar_producto(request):
             producto_existente.precio = precio
             producto_existente.stock = stock
 
-            print('Editado con éxito')
-
             return render(request, 'editarProducto.html')  # Página de éxito o redirección
 
     return render(request, 'editarProducto.html')
 
-    return render(request, 'editarProducto.html')
 
 def listar_productos(request):
     productos = []
