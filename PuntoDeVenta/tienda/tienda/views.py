@@ -4,6 +4,10 @@ from tienda.Back.cliente import *
 from tienda.Back.producto import *
 from tienda.Back.factura import *
 from tienda.Back.lista_simple import *
+import matplotlib.pyplot as plt
+import io
+import urllib, base64
+
 
 lista_clientes = ListaSimple()
 lista_productos = ListaSimple()
@@ -19,8 +23,70 @@ def test_page_view(request):
 def index(request):
     return render(request, 'index.html')
 
-def estadisca(request):
-    return render(request, 'verGraficas.html')
+def estadistica(request):
+    x = []
+    y = []
+    elementos = lista_productos.cantidadElementos()
+
+    if elementos > 0:
+        for i in range(elementos):
+            numeroVentas = int(lista_productos.BuscarPorIndice(i).cantidadVentas)
+            producto = lista_productos.BuscarPorIndice(i).nombre
+            if numeroVentas > 0:
+                x.append(producto)
+                y.append(numeroVentas)
+
+    fig, ax = plt.subplots()
+    ax.plot(x, y)
+    plt.title('Productos más vendidos')
+    plt.xlabel('Nombre producto')
+    plt.ylabel('Cantidad vendido')
+
+    # Guardar la gráfica como imagen
+    buffer = io.BytesIO()
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+    image_png = buffer.getvalue()
+    buffer.close()
+
+    # Convertir la imagen a base64
+    graphic = base64.b64encode(image_png).decode('utf-8')
+    image = "data:image/png;base64," + graphic
+
+    return render(request, 'verGraficas.html', {'image': image})
+
+# Este metodo se utiliza para la grafica del cliente top
+'''def estadistica(request):
+    x = []
+    y = []
+    elementos = lista_facturas.cantidadElementos()
+
+    if elementos > 0:
+        for i in range(elementos):
+            numeroProductos = lista_facturas.BuscarPorIndice(i).productos.cantidadElementos()
+            nombreCliente = lista_facturas.BuscarPorIndice(i).nombre
+            if numeroProductos > 0:
+                x.append(nombreCliente)
+                y.append(numeroProductos)
+
+    fig, ax = plt.subplots()
+    ax.plot(x, y)
+    plt.title('Cliente con mas productos')
+    plt.xlabel('Nombre cliente')
+    plt.ylabel('Cantidad productos comprados')
+
+    # Guardar la gráfica como imagen
+    buffer = io.BytesIO()
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+    image_png = buffer.getvalue()
+    buffer.close()
+
+    # Convertir la imagen a base64
+    graphic = base64.b64encode(image_png).decode('utf-8')
+    image = "data:image/png;base64," + graphic
+
+    return render(request, 'verGraficas.html', {'image': image})'''
 
 def agregarCliente(request):
     if request.method == 'POST':
@@ -58,6 +124,14 @@ def listar_clientes(request):
 
     # Renderizar la plantilla con la lista de clientes
     return render(request, 'verClientes.html', {'clientes': clientes})
+
+def eliminar_cliente(request):
+    if request.method == 'GET':
+        nombre = request.GET.get('nombre')
+        lista_clientes.EliminarPorNombre(nombre) # Eliminar el cliente de la lista
+
+        return render(request, 'eliminarCliente.html')  # Renderiza una página de éxito o redirige a otra vista
+
 
 def agregar_producto(request):
     if request.method == 'POST':
@@ -98,18 +172,26 @@ def listar_productos(request):
 def agregar_factura(request):
     if request.method == 'POST':
         numero = request.POST.get('numeroFactura')
-        nit = request.POST.get('nit')
         nombre = request.POST.get('nombreCliente')  # Ajustar el nombre del campo según el formulario
         total = request.POST.get('total')
-        productos = request.POST.get('productos')
+        nombreProducto = request.POST.get('productos')
+        allProducto = nombreProducto.split(',')
 
-        # Aquí puedes realizar el manejo necesario con los datos de productos, 
-        # como dividirlos, procesarlos, etc., dependiendo de cómo estén estructurados en tu aplicación.
-
-        nuevaFactura = Factura(numero, nit, nombre, total)
+        # Este segmento de codigo, sirve para la informacion de la factura
+        nit = lista_clientes.BuscarPorNombre(nombre).nit
+        nombre = lista_clientes.BuscarPorNombre(nombre).nombre
+        total = total
+        nuevaFactura = Factura(numero,nit,nombre,total)
         lista_facturas.insertarNodo(nuevaFactura)
-        
-        print(nombre)
+
+        buesqueda = lista_facturas.BuscarPorNombre(nombre)
+        if buesqueda:
+        # se realiza el ingreso de productos
+            for unProducto in allProducto:
+                busquedaProducto = lista_productos.BuscarPorNombre(unProducto)
+                if busquedaProducto:
+                    busquedaProducto.cantidadVentas += 1
+                    lista_facturas.insertarEnFactura(nombre,busquedaProducto)
 
         return render(request, 'agregarFactura.html')  # Página de éxito o redirección
 
@@ -121,19 +203,130 @@ def listar_facturas(request):
     # Verificar si existen facturas en la lista antes de iterar
     if lista_facturas.cantidadElementos() > 0:
         longitud = lista_facturas.cantidadElementos()
-
+        if lista_productos.cantidadElementos() > 0:
+            tamanio = lista_productos.cantidadElementos()
         # Iterar a través de la lista enlazada para obtener las facturas
-        for i in range(longitud):
-            factura = lista_facturas.obtenerNodoPorIndice(i)
+            for i in range(longitud):
+                productos = []
+                for j in range(tamanio):
+                    factura = lista_facturas.obtenerNodoPorIndice(i)
+                    if factura.productos.obtenerNodoPorIndice(j):
 
-            # Acceder a los atributos correctos de la factura y agregarlos a la lista
-            facturas.append({
-                'numeroFactura': factura.numero,  # Acceder al atributo 'numero' en lugar de 'numeroFactura'
-                'nit': factura.nit,
-                'nombre': factura.nombre,
-                'total': factura.total,
-            })
+                        producto = lista_facturas.obtenerNodoPorIndice(i).productos.obtenerNodoPorIndice(j).nombre
+                        productos.append(producto)
+                    # Acceder a los atributos correctos de la factura y agregarlos a la lista
+                facturas.append({
+                    'numeroFactura': factura.numero,  # Acceder al atributo 'numero' en lugar de 'numeroFactura'
+                    'nit': factura.nit,
+                    'nombre': factura.nombre,
+                    'total': factura.total,
+                    'productos':productos,
+                })
 
     return render(request, 'verFacturas.html', {'facturas': facturas})
+
+
+def buscar_Factura(request):
+    if request.method == 'POST':
+        factura_id = request.POST.get('id')  # Obtén el ID de la factura del formulario
+        factura = lista_facturas.buscarPorNumeroFactura(factura_id)     
+        productos = []
+
+        # Verificar si la factura se encontró
+        if factura:
+            # Recuperar los productos asociados a la factura encontrada
+            for i in range(factura.productos.cantidadElementos()):
+                producto = factura.productos.obtenerNodoPorIndice(i).nombre
+                productos.append(producto)
+
+            return render(request, 'buscarFactura.html', {'factura': factura, 'productos': productos})
+        else:
+            # Si la factura no se encuentra, puedes manejarlo aquí
+            mensaje_error = f"No se encontró ninguna factura con el ID: {factura_id}"
+            return render(request, 'buscarFactura.html', {'error_message': mensaje_error})
+
+    return render(request, 'buscarFactura.html')
+
+def eliminar_factura(request):
+    if request.method == 'GET':
+        nombre = request.GET.get('nombre')
+        lista_facturas.EliminarPorNombre(nombre) # Eliminar la factura de la lista
+
+        return render(request, 'eliminarFactura.html')  # Renderiza una página de éxito o redirige a otra vista
+
+def editar_factura(request):
+    if request.method == 'POST':
+        nombreAnterior = request.POST.get('nombreAnterior')
+        numero = request.POST.get('numeroFactura')
+        nuevoNombre = request.POST.get('nombreCliente')  # Ajustar el nombre del campo según el formulario
+        nit = lista_clientes.BuscarPorNombre(nuevoNombre).nit
+        total = request.POST.get('total')
+        nombreProducto = request.POST.get('productos')
+        allProducto = nombreProducto.split(',')
+        
+        factura = lista_facturas.BuscarPorNombre(nombreAnterior)
+
+        if factura:
+            # Se asignan los nuevos datos
+            lista_facturas.EditarPorNombreFactura(nombreAnterior,numero,nit,nuevoNombre,total)
+
+            # Se encarga de contabilizar la cantidad de productos anteriores en la factura
+            productosEnFactura = lista_facturas.BuscarPorNombre(nuevoNombre).productos.cantidadElementos()
+
+            # Vaciamos el listado de productos anteriores en la factura
+            while productosEnFactura != 0:
+                productoAEliminar = lista_facturas.BuscarPorNombre(nuevoNombre).productos.BuscarPorIndice(0).nombre
+                lista_facturas.EliminarProductoEnFactura(nuevoNombre,productoAEliminar)
+                productosEnFactura = productosEnFactura -1
+
+            # Agregamos los nuevos productos
+            for unProducto in allProducto:
+                busquedaProducto = lista_productos.BuscarPorNombre(unProducto)
+                if busquedaProducto:
+                    busquedaProducto.cantidadVentas += 1
+                    lista_facturas.insertarEnFactura(nuevoNombre,busquedaProducto)
+
+        return render(request, 'editarFactura.html')
+    return render(request, 'editarFactura.html')
+
+def buscar_cliente(request):
+    if request.method == 'POST':
+        nombre_cliente = request.POST.get('id')  
+        cliente = lista_clientes.BuscarPorNombre(nombre_cliente)   
+
+        # Verificar si el cliente se encontró
+        if cliente:
+
+            return render(request, 'buscarCliente.html', {'cliente': cliente})
+        else:
+            mensaje_error = f"No se encontró ningun cliente con el nombre: {nombre_cliente}"
+            return render(request, 'buscarCliente.html', {'error_message': mensaje_error})
+
+    return render(request, 'buscarCliente.html')
+
+
+def buscar_producto(request):
+    if request.method == 'POST':
+        nombre_producto = request.POST.get('id')  
+        producto = lista_productos.BuscarPorNombre(nombre_producto)   
+
+        # Verificar si el cliente se encontró
+        if producto:
+
+            return render(request, 'buscarProducto.html', {'producto': producto})
+        else:
+            mensaje_error = f"No se encontró ningun producto con el nombre: {nombre_producto}"
+            return render(request, 'buscarCliente.html', {'error_message': mensaje_error})
+
+    return render(request, 'buscarProducto.html')
+
+
+def eliminar_producto(request):
+    if request.method == 'GET':
+        nombre = request.GET.get('nombre')
+        lista_productos.EliminarPorNombre(nombre) # Eliminar el producto de la lista
+
+        return render(request, 'eliminarProducto.html')
+
 
 # python manage.py runserver
