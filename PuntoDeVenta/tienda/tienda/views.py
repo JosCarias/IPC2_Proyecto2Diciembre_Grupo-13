@@ -234,14 +234,14 @@ def agregar_factura(request):
         nuevaFactura = Factura(numero,nit,nombre,total)
         lista_facturas.insertarNodo(nuevaFactura)
 
-        buesqueda = lista_facturas.BuscarPorNombre(nombre)
+        buesqueda = lista_facturas.buscarPorNumeroFactura(numero)
         if buesqueda:
         # se realiza el ingreso de productos
             for unProducto in allProducto:
                 busquedaProducto = lista_productos.BuscarPorNombre(unProducto)
                 if busquedaProducto:
                     busquedaProducto.cantidadVentas += 1
-                    lista_facturas.insertarEnFactura(nombre,busquedaProducto)
+                    lista_facturas.insertarEnFacturaNumero(numero,busquedaProducto)
 
         return render(request, 'agregarFactura.html')  # Página de éxito o redirección
 

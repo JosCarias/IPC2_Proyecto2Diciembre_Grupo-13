@@ -24,6 +24,17 @@ class ListaSimple:
                     break
                 else:
                     aux = aux.siguiente
+
+    def insertarEnFacturaNumero(self, numeroFactura, node):
+        existeFactura = self.buscarPorNumeroFactura(numeroFactura)
+        aux = self.primero
+        if existeFactura:
+            while aux != None:
+                if numeroFactura == aux.node.numero:
+                    aux.node.productos.insertarNodo(node)
+                    break
+                else:
+                    aux = aux.siguiente
                     
     def buscarPorNumeroFactura(self, numero_factura):
         actual = self.primero
