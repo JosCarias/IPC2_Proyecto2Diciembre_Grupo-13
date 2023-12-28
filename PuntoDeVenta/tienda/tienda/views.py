@@ -115,6 +115,31 @@ def agregar_producto(request):
 
     return render(request, 'agregarProducto.html')
 
+def editar_producto(request):
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre')
+        id = request.POST.get('id')
+        descripcion = request.POST.get('descripcion')
+        precio = request.POST.get('precio')
+        stock = request.POST.get('stock')
+
+        producto_existente = lista_productos.BuscarPorNombre(nombre)
+        if producto_existente:
+            # Modificar los atributos del producto existente
+            producto_existente.nombre = nombre
+            producto_existente.id = id
+            producto_existente.descripcion = descripcion
+            producto_existente.precio = precio
+            producto_existente.stock = stock
+
+            print('Editado con éxito')
+
+            return render(request, 'editarProducto.html')  # Página de éxito o redirección
+
+    return render(request, 'editarProducto.html')
+
+    return render(request, 'editarProducto.html')
+
 def listar_productos(request):
     productos = []
 

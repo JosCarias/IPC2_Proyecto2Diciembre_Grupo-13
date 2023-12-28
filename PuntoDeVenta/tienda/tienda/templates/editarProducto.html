@@ -26,35 +26,14 @@
                     // Cambiar la URL actual
                     window.location.href = 'http://127.0.0.1:8000/Producto/productos/';
                 }
-            </script>
-            <button type="button" class="btn btn-info" onclick="EliminarProducto()">Eliminar Producto</button>
-            <script>
-                function EliminarProducto() {
-                    // Cambiar la URL actual
-                    window.location.href = 'http://127.0.0.1:8000/Producto/eliminar/';
-                }
-            </script>
-            <button type="button" class="btn btn-info" onclick="BuscarProducto()">Buscar Producto</button>
-            <script>
-                function BuscarProducto() {
-                    // Cambiar la URL actual
-                    window.location.href = 'http://127.0.0.1:8000/Producto/buscar/';
-                }
-            </script>
-            <button type="button" class="btn btn-info" onclick="Editar()">Editar Producto</button> 
-            <script>
-                function Editar() {
-                    // Cambiar la URL actual
-                    window.location.href = 'http://127.0.0.1:8000/Producto/editar/';
-                }
-            </script>           
+            </script>                               
         </fieldset>
     </div>
     <div class="container mt-4" style="background-color: #FDEDEC;border-radius: 10px;  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
         <h1>Punto de venta</h1>
         <fieldset style="border: 2px solid #000;border-radius: 5px;padding: 10px;">
-            <legend>Agregar Producto:</legend>
-            <form action="{% url 'agregar_Producto' %}" method="post">
+            <legend>Editar producto:</legend>
+            <form action="{% url 'editar_producto' %}" method="post">
                 {% csrf_token %}
                 <label for="ID">ID:</label>
                 <input type="text" class="form-control" id="ID" name="id" required>
@@ -68,7 +47,7 @@
                 <input type="text" class="form-control" id="Stock" name="stock" required>
 
                 <!-- Botón para enviar el formulario -->
-                <button type="submit" class="btn btn-success mr-2">Agregar</button>
+                <button type="submit" class="btn btn-success mr-2">Editar</button>
             </form>
     </div>
 

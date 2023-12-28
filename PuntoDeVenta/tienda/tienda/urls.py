@@ -29,6 +29,7 @@ urlpatterns = [
     path('Producto/productos/', views.listar_productos, name='ver_Producto'),
     path('Producto/eliminar/', views.eliminar_producto, name='eliminar_producto'),
     path('Producto/buscar/', views.buscar_producto, name='buscar_producto'),
+    path('Producto/editar/', views.editar_producto, name='editar_producto'),
     path('Venta/', views.agregar_factura, name='agregar_Factura'),
     path('Venta/ventas/', views.listar_facturas, name='ver_Factura'),
     path('Venta/ventas/buscar', views.buscar_Factura, name='buscar_Factura'),
