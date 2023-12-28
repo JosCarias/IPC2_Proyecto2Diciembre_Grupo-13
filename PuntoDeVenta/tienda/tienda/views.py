@@ -55,6 +55,8 @@ def estadistica(request):
 
     return render(request, 'verGraficas.html', {'image': image})
 
+
+
 def agregarCliente(request):
     if request.method == 'POST':
         dpi = request.POST.get('dpi')
@@ -115,6 +117,7 @@ def agregar_producto(request):
 
     return render(request, 'agregarProducto.html')
 
+<<<<<<< HEAD
 def editar_producto(request):
     if request.method == 'POST':
         nombre = request.POST.get('nombre')
@@ -137,6 +140,8 @@ def editar_producto(request):
     return render(request, 'editarProducto.html')
 
 
+=======
+>>>>>>> 82bd8017c2d3bc497d8dee07c7b8b14119e76cc1
 def listar_productos(request):
     productos = []
 
