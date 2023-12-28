@@ -24,36 +24,69 @@ def index(request):
     return render(request, 'index.html')
 
 def estadistica(request):
-    x = []
-    y = []
-    elementos = lista_productos.cantidadElementos()
+    # Lógica para la primera gráfica (productos más vendidos)
+    x_productos = []
+    y_productos = []
 
-    if elementos > 0:
-        for i in range(elementos):
+    elementos_productos = lista_productos.cantidadElementos()
+
+    if elementos_productos > 0:
+        for i in range(elementos_productos):
             numeroVentas = int(lista_productos.BuscarPorIndice(i).cantidadVentas)
             producto = lista_productos.BuscarPorIndice(i).nombre
             if numeroVentas > 0:
-                x.append(producto)
-                y.append(numeroVentas)
+                x_productos.append(producto)
+                y_productos.append(numeroVentas)
 
-    fig, ax = plt.subplots()
-    ax.plot(x, y)
+    fig_productos, ax_productos = plt.subplots()
+    ax_productos.plot(x_productos, y_productos)
     plt.title('Productos más vendidos')
     plt.xlabel('Nombre producto')
-    plt.ylabel('Cantidad vendido')
+    plt.ylabel('Cantidad vendida')
 
-    # Guardar la gráfica como imagen
-    buffer = io.BytesIO()
-    plt.savefig(buffer, format='png')
-    buffer.seek(0)
-    image_png = buffer.getvalue()
-    buffer.close()
+    # Guardar la gráfica de productos más vendidos como imagen
+    buffer_productos = io.BytesIO()
+    plt.savefig(buffer_productos, format='png')
+    buffer_productos.seek(0)
+    image_png_productos = buffer_productos.getvalue()
+    buffer_productos.close()
 
-    # Convertir la imagen a base64
-    graphic = base64.b64encode(image_png).decode('utf-8')
-    image = "data:image/png;base64," + graphic
+    # Convertir la imagen de productos a base64
+    graphic_productos = base64.b64encode(image_png_productos).decode('utf-8')
+    image_productos = "data:image/png;base64," + graphic_productos
 
-    return render(request, 'verGraficas.html', {'image': image})
+    # Lógica para la segunda gráfica (clientes con más productos)
+    x_clientes = []
+    y_clientes = []
+
+    elementos_clientes = lista_facturas.cantidadElementos()
+
+    if elementos_clientes > 0:
+        for i in range(elementos_clientes):
+            numeroProductos = lista_facturas.BuscarPorIndice(i).productos.cantidadElementos()
+            nombreCliente = lista_facturas.BuscarPorIndice(i).nombre
+            if numeroProductos > 0:
+                x_clientes.append(nombreCliente)
+                y_clientes.append(numeroProductos)
+
+    fig_clientes, ax_clientes = plt.subplots()
+    ax_clientes.plot(x_clientes, y_clientes)
+    plt.title('Clientes con más productos')
+    plt.xlabel('Nombre cliente')
+    plt.ylabel('Cantidad productos comprados')
+
+    # Guardar la gráfica de clientes con más productos como imagen
+    buffer_clientes = io.BytesIO()
+    plt.savefig(buffer_clientes, format='png')
+    buffer_clientes.seek(0)
+    image_png_clientes = buffer_clientes.getvalue()
+    buffer_clientes.close()
+
+    # Convertir la imagen de clientes a base64
+    graphic_clientes = base64.b64encode(image_png_clientes).decode('utf-8')
+    image_clientes = "data:image/png;base64," + graphic_clientes
+
+    return render(request, 'verGraficas.html', {'image_productos': image_productos, 'image_clientes': image_clientes})
 
 
 
@@ -117,7 +150,6 @@ def agregar_producto(request):
 
     return render(request, 'agregarProducto.html')
 
-<<<<<<< HEAD
 def editar_producto(request):
     if request.method == 'POST':
         nombre = request.POST.get('nombre')
@@ -140,8 +172,7 @@ def editar_producto(request):
     return render(request, 'editarProducto.html')
 
 
-=======
->>>>>>> 82bd8017c2d3bc497d8dee07c7b8b14119e76cc1
+
 def listar_productos(request):
     productos = []
 
